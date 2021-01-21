@@ -1,140 +1,139 @@
+const rockButton = document.querySelector("#rock");
+const scissorButton = document.querySelector("#scissor"); 
+const paperButton = document.querySelector("#paper");
 
-function playerPlay() {
-  const rockButton = document.querySelector("#rock");
-  const scissorButton = document.querySelector("#scissor"); 
-  const paperButton = document.querySelector("#paper");
-  
-  rockButton.addEventListener("click", () => {
-    console.log("player played rock");
-    return "rock";
-  });
-  
-  scissorButton.addEventListener("click", () => {
-    console.log("player played scissor");
-    return "scissor";
-  });
-  
-  paperButton.addEventListener("click", () => {
-    console.log("player played paper");
-    return paper;
-  })
+rockButton.addEventListener("click", () => {
+  playRound("rock");});
+
+scissorButton.addEventListener("click", () => {
+  playRound("scissor");});
+
+paperButton.addEventListener("click", () => {
+  playRound("paper");});
+
+const divResult1 = document.querySelector("#result1");
+const divResult2 = document.querySelector("#result2");
+const divResult3 = document.querySelector("#result3");
+let humanScore = 0;
+let machineScore = 0;
+let draw = 0;
+
+
+function updateDashaboar() {
+  divResult1.textContent = `human score: ${humanScore}`;
+  divResult2.textContent = `machine score: ${machineScore}`;
+  divResult3.textContent = `draw ${draw}`;
 }
 
+updateDashaboar()
+
 function computerPlay() {
-  let rock = "rock";
-  let paper = "paper";
-  let scissor = "scissor";
   let randomPlay = Math.floor(Math.random() * 3);
   
   if(randomPlay === 0) {
-    console.log("computerPlay = rock");
-    return rock;
+    return "rock";
   }
   
-  else if(randomPlay === 1) {
-    console.log("computerPlay = paper");
-    return paper;
+  if(randomPlay === 1) {
+    return "paper";
   }
   
-  else if(randomPlay === 2) {
-    console.log("computerPlay = paper");
-    return scissor;
+  if(randomPlay === 2) {
+    return "scissor";
   }
 }
 
-function playRound() {
-  console.log("round started");
+function playRound(playerSelection) {
   let computerSelection = computerPlay();
-  let playerSelection = playerPlay();
-  console.log(computerSelection);
   console.log(playerSelection);
+  console.log(computerSelection);
+  
   
   if(computerSelection === "rock" && playerSelection === "paper") {
-    console.log("playRound() human won");
+    humanScore++;
+    updateDashaboar();
+    checkVicotor()
+    console.log(humanScore + " " + machineScore);
     return "human won";
   }
 
   else if(computerSelection === "rock" && playerSelection === "rock") {
-    console.log("playRound() draw");
+    draw++;
+    updateDashaboar();
+    console.log(humanScore + " " + machineScore);
     return "draw";
   }
 
   else if(computerSelection === "rock" && playerSelection === "scissor") {
-    console.log("playRound() machine victory");
+    machineScore++;
+    updateDashaboar();
+    checkVicotor()
+    console.log(humanScore + " " + machineScore);
     return "machine victory";
   }
 
   else if(computerSelection === "paper" && playerSelection ==="paper") {
-    console.log("playRound() draw");
+    draw++;
+    updateDashaboar();
+    console.log(humanScore + " " + machineScore);
     return "draw";
   }
 
   else if(computerSelection === "paper" && playerSelection ==="rock") {
-    console.log("playRound() machine victory");
+    machineScore++;
+    updateDashaboar();
+    checkVicotor()
+    console.log(humanScore + " " + machineScore);
     return "machine victory";
   }
 
   else if(computerSelection === "paper" && playerSelection ==="scissor") {
-    console.log("playRound() human won");
+    humanScore++;
+    updateDashaboar();
+    checkVicotor()
+    console.log(humanScore + " " + machineScore);
     return "human won";
   }
 
   else if(computerSelection === "scissor" && playerSelection ==="paper") {
-    console.log("playRound() machine victory");
+    machineScore++;
+    updateDashaboar();
+    checkVicotor()
+    console.log(humanScore + " " + machineScore);
     return "machine victory";
   }
 
   else if(computerSelection === "scissor" && playerSelection ==="rock") {
-    console.log("playRound() human won");
+    humanScore++;
+    updateDashaboar();
+    checkVicotor()
+    console.log(humanScore + " " + machineScore);
     return "human won";
   }
 
   else {
-    console.log("playRound() draw");
+    draw++;
+    updateDashaboar();
+    console.log(humanScore + " " + machineScore);
     return "draw";
   }
 }
 
-function game() {
-  
-  let humanScore = 0;
-  let machineScore = 0;
-  let drawScore = 0;
-  let i = 0;
-
-  while(i < 5) {
-    let roundResult = playRound();
-    
-    
-    if(roundResult === "human won") {
-      humanScore = humanScore + 1;
-      
-    }
-    
-    if(roundResult === "machine victory") {
-      machineScore = machineScore + 1;
-      
-    }
-  
-    if(roundResult === "draw") {
-      drawScore = drawScore + 1;
-    }
-    
-    i++;
-    
+function checkVicotor() {
+  if(humanScore === 5) {
+    alert("human victory");
+    humanScore = 0;
+    machineScore = 0;
+    draw = 0;
+    updateDashaboar();
   }
 
-  const divResult = document.querySelector("#result");
-  divResult.textContent = "humanScore: " + humanScore + "\n" + "machineScore: " + 
-  machineScore + "\n" +"draw: " + drawScore;  
+  if(machineScore === 5) {
+    alert("machine victory")
+    humanScore = 0;
+    machineScore = 0;
+    draw = 0;
+    updateDashaboar();
+    }
 }
-
-function newGame() {
-  const startButton = document.querySelector("#startGame")
-  startButton.addEventListener("click", game());
-}
-
-newGame();
-
-
 
